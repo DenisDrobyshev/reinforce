@@ -6,6 +6,17 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Changed
+- The top-level package now resolves its public names lazily (PEP 562 `__getattr__`),
+  so `import decisionrl` imports nothing on its own. `decisionrl.envs`,
+  `decisionrl.baselines`, `decisionrl.core`, `decisionrl.solvers` and
+  `decisionrl.wrappers` import with PyTorch absent entirely; torch arrives on first
+  use of anything that trains (`decisionrl.algorithms`, `PPO`, `decisionrl.networks`).
+  `import decisionrl.envs` drops from ~1.9 s to ~0.2 s, the remainder being NumPy.
+  The public API is unchanged — `from decisionrl import PPO` resolves as before.
+- `decisionrl.utils` defers its `torch_utils` re-exports (`get_device`, `to_tensor`,
+  `soft_update`, …) for the same reason: `decisionrl.core` imports it for `Logger`.
+
 ## [0.4.0] - 2026-07-18
 
 ### Added
