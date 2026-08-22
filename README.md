@@ -31,12 +31,15 @@ energy, queueing, and supply chains. Each of these problems ships as a first-cla
 environment paired with the classical operations-research baseline, so a learned
 policy can be measured against the standard method rather than asserted to be good.
 
-Underneath the applied layer is a dependency-light (NumPy and PyTorch) library of 31
-algorithms with a single `predict` / `learn` / `save` / `load` interface, static
-typing, and a test suite that checks both component correctness and learning behaviour.
+Underneath the applied layer is a dependency-light library of 32 algorithms with a single
+`predict` / `learn` / `save` / `load` interface, static typing, and a test suite that
+checks both component correctness and learning behaviour. The environments, the classical
+baselines and the solvers are pure NumPy; PyTorch is an extra, needed only by the half
+that trains.
 
 ```bash
-pip install decisionrl
+pip install "decisionrl[torch]"   # everything, including the deep-RL algorithms
+pip install decisionrl            # environments, baselines and solvers only (no torch)
 ```
 
 ## Results
@@ -101,7 +104,11 @@ by hand.
 ## Installation
 
 ```bash
-# from PyPI
+# from PyPI, with PyTorch - needed by every algorithm that trains
+pip install "decisionrl[torch]"
+
+# without PyTorch: the environments, the classical baselines and the solvers are
+# pure NumPy, so simulating and evaluating needs no multi-gigabyte wheel
 pip install decisionrl
 
 # with the optional Gymnasium environments

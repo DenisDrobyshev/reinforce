@@ -36,7 +36,24 @@ from .reacher import ReacherArm
 from .supply_chain import SupplyChain
 from .thermostat import Thermostat
 
+#: The applied subset: operational decisions with a cost function and a classical
+#: operations-research baseline beside them in :mod:`decisionrl.baselines`. Named here
+#: rather than counted by hand, because the size of this set is the library's positioning
+#: and it is quoted in CITATION.cff and the packaging description.
+APPLIED_ENVIRONMENTS = (
+    "DatasetDemandInventory",
+    "InventoryManagement",
+    "Thermostat",
+    "DynamicPricing",
+    "QueueAdmissionControl",
+    "EnergyMicrogrid",
+    "SupplyChain",
+    "NonstationaryInventory",
+    "JointPricingInventory",
+)
+
 __all__ = [
+    "APPLIED_ENVIRONMENTS",
     # classic / toy
     "GridWorld",
     "BitFlipping",

@@ -16,6 +16,40 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   The public API is unchanged — `from decisionrl import PPO` resolves as before.
 - `decisionrl.utils` defers its `torch_utils` re-exports (`get_device`, `to_tensor`,
   `soft_update`, …) for the same reason: `decisionrl.core` imports it for `Logger`.
+- **Breaking (packaging): PyTorch is now an optional dependency.** `pip install
+  decisionrl` installs NumPy only and gives you the environments, the classical
+  baselines, the solvers and the core API. Install `decisionrl[torch]` for the
+  algorithms — everything that trains. Touching a torch-backed name without it raises
+  a `ModuleNotFoundError` that names the attribute and the command that fixes it,
+  rather than a bare "No module named 'torch'". `decisionrl[dev]` includes torch, so
+  contributor setup is unchanged.
+- `test_neuroevolution_cem_solves_cartpole` is now
+  `test_neuroevolution_cem_beats_random_on_cartpole`: it takes the median of three
+  seeds and measures it against the random-policy return rather than asserting a single
+  seed clears 300 of a possible 500. At this budget CEM returns roughly 283 / 105 / 241
+  / 97 across seeds 0–3, so the old threshold was a threshold on luck — it is what made
+  CI fail on unrelated pull requests.
+
+### Added
+- Python 3.13 to the CI matrix and to the packaging classifiers.
+- `decisionrl.envs.APPLIED_ENVIRONMENTS`: the applied subset named in code instead of
+  counted by hand, since its size is quoted in the README, the packaging description
+  and `CITATION.cff`.
+- `tests/test_documented_counts.py`: the advertised algorithm and environment counts are
+  now checked against the package, and `CITATION.cff`'s version against
+  `decisionrl.__version__`.
+
+### Fixed
+- `NeuroevolutionAgent` never seeded its environment, so `seed=` reached only the
+  optimizer's search while the rollout start states — the fitness signal itself — came
+  from OS entropy. Every run was irreproducible regardless of the seed. It now seeds the
+  environment once at the top of `learn`, as every other agent already did.
+- The advertised counts disagreed with the package and with each other: `CITATION.cff`
+  claimed twenty-two environments where twenty-four ship, and the algorithm count was
+  31 in the README, the packaging description and the citation file where 32 agents are
+  exported. All three now read 32 algorithms and 24 environments, 9 of them applied.
+- `CITATION.cff` had no `version`, `date-released` or `type`, which left the citation
+  incomplete.
 
 ## [0.4.0] - 2026-07-18
 

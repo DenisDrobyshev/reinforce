@@ -29,8 +29,9 @@ import time. Touch anything that trains — :mod:`decisionrl.algorithms`,
 
 from __future__ import annotations
 
-import importlib
 from typing import TYPE_CHECKING, Any, List
+
+from ._lazy import import_module
 
 __version__ = "0.4.0"
 
@@ -165,9 +166,9 @@ def __getattr__(name: str) -> Any:
     of the underlying submodule — is paid at most once.
     """
     if name in _SUBMODULES:
-        value: Any = importlib.import_module(f".{name}", __name__)
+        value: Any = import_module(f".{name}", __name__, f"{__name__}.{name}")
     elif name in _ATTRIBUTES:
-        value = getattr(importlib.import_module(f".{_ATTRIBUTES[name]}", __name__), name)
+        value = getattr(import_module(f".{_ATTRIBUTES[name]}", __name__, name), name)
     else:
         raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
     globals()[name] = value

@@ -7,9 +7,9 @@ names are resolved lazily (PEP 562) so that importing this package — which
 
 from __future__ import annotations
 
-import importlib
 from typing import TYPE_CHECKING, Any, List
 
+from .._lazy import import_module
 from .dashboard import plot_dashboard
 from .logger import HistoryLogger, Logger
 from .render import record_gif
@@ -32,7 +32,7 @@ _TORCH_UTILS = frozenset(
 def __getattr__(name: str) -> Any:
     if name not in _TORCH_UTILS:
         raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
-    value = getattr(importlib.import_module(".torch_utils", __name__), name)
+    value = getattr(import_module(".torch_utils", __name__, f"{__name__}.{name}"), name)
     globals()[name] = value
     return value
 

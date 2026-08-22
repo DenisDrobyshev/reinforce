@@ -132,3 +132,38 @@ def test_unknown_attribute_raises_attribute_error():
 
     with pytest.raises(AttributeError):
         _ = decisionrl.NoSuchAttribute
+
+
+def test_missing_torch_is_reported_with_the_command_that_fixes_it():
+    """torch is an optional extra, so its absence must explain itself.
+
+    Without this the failure is a bare ModuleNotFoundError for 'torch' raised from
+    inside the package, long after `pip install decisionrl` reported success.
+    """
+    _run(
+        """
+        import decisionrl
+
+        for attribute in ("PPO", "algorithms"):
+            try:
+                getattr(decisionrl, attribute)
+            except ModuleNotFoundError as exc:
+                message = str(exc)
+                assert attribute in message, message
+                assert 'pip install "decisionrl[torch]"' in message, message
+            else:
+                raise AssertionError(f"{attribute} resolved with torch unavailable")
+        """,
+        hide_torch=True,
+    )
+
+
+def test_a_missing_module_that_is_not_torch_keeps_its_own_error():
+    """Only torch gets the rewritten message; anything else must surface as itself."""
+    from decisionrl._lazy import import_module
+
+    with pytest.raises(ModuleNotFoundError) as excinfo:
+        import_module(".no_such_module_here", "decisionrl", "something")
+
+    assert excinfo.value.name == "decisionrl.no_such_module_here"
+    assert "decisionrl[torch]" not in str(excinfo.value)
