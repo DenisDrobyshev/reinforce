@@ -10,7 +10,7 @@
 #
 # The serving image needs neither PyTorch nor the decisionrl package, only onnxruntime +
 # FastAPI, so it stays small. The entrypoint is the standalone deploy/serve.py.
-FROM python:3.12-slim
+FROM python:3.14-slim
 
 WORKDIR /app
 
