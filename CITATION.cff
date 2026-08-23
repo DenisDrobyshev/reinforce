@@ -1,13 +1,16 @@
 cff-version: 1.2.0
+type: software
 title: >-
   decisionrl — reinforcement learning for operational decisions
 message: >-
   If you use decisionrl in work you publish, please cite it using this entry.
 abstract: >-
-  A reinforcement learning library aimed at operational decisions with a cost function -- pricing, inventory, energy, queueing and supply chains -- rather than at benchmark scores. Thirty-one algorithms and twenty-two environments, nine of them applied. Every applied environment ships with the classical operations-research baseline beside it, so a learned policy is measured against the standard method rather than asserted to improve on it.
+  A reinforcement learning library aimed at operational decisions with a cost function -- pricing, inventory, energy, queueing and supply chains -- rather than at benchmark scores. 32 algorithms and 24 environments, 9 of them applied. Every applied environment ships with the classical operations-research baseline beside it, so a learned policy is measured against the standard method rather than asserted to improve on it.
 authors:
   - family-names: Drobyshev
     given-names: Denis
+version: 0.4.0
+date-released: '2026-07-18'
 repository-code: https://github.com/DrobyshevDev/decisionrl
 url: https://github.com/DrobyshevDev/decisionrl
 license: MIT

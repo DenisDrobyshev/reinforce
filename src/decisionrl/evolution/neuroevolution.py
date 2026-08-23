@@ -126,6 +126,13 @@ class NeuroevolutionAgent(BaseAgent):
         return -total / self.episodes_per_eval
 
     def learn(self, total_steps: int, callback=None, log_interval: int = 10) -> "NeuroevolutionAgent":
+        # Seed the environment's episode stream once, the way every other agent does
+        # at the top of its own `learn`. The seed handed to `__init__` reaches only the
+        # optimizer's search; the rollout start states are the fitness signal itself, and
+        # an unseeded env draws them from OS entropy - so without this line the whole run
+        # is irreproducible and `seed=` buys nothing. `seed=None` leaves the env alone,
+        # which is the unseeded behaviour an unseeded agent should keep.
+        self.env.reset(seed=self.seed)
         if callback is not None:
             callback.on_training_start(self)
         returns_window: deque = deque(maxlen=20)

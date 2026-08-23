@@ -14,7 +14,9 @@ so it runs the moment you `pip install` it.
   (TD3+BC, IQL, CQL) — plus multi-agent PPO (self-play / IPPO).
 - **Correctness-first** — proper `terminated`/`truncated` bootstrapping, GAE,
   target-policy smoothing, automatic entropy tuning, orthogonal init.
-- **Dependency-light** — only NumPy + PyTorch in the core; Gymnasium optional.
+- **Dependency-light** — NumPy alone in the core. The environments, the classical
+  baselines and the solvers need nothing else; PyTorch is an extra that the
+  algorithms pull in, and Gymnasium is optional.
 - **Batteries included** — built-in environments (classic control + applied),
   image observations (CNN), vectorized envs (sync & multiprocessing), a CLI and
   a tuned-hyperparameter registry.
@@ -26,6 +28,9 @@ so it runs the moment you `pip install` it.
 ## Install
 
 ```bash
+# with PyTorch, needed by every algorithm that trains:
+pip install "decisionrl[torch] @ git+https://github.com/DrobyshevDev/decisionrl.git"
+# without it - environments, baselines and solvers only:
 pip install git+https://github.com/DrobyshevDev/decisionrl.git
 # with Gymnasium environments:
 pip install "decisionrl[gym] @ git+https://github.com/DrobyshevDev/decisionrl.git"
