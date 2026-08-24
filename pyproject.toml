@@ -50,8 +50,8 @@ torch = ["torch>=1.13"]
 gym = ["gymnasium>=0.29"]
 config = ["pyyaml>=6.0.3"]
 logging = ["tensorboard>=2.10"]
-serve = ["onnx>=1.14", "onnxruntime>=1.16", "fastapi>=0.100", "uvicorn>=0.23"]
-hub = ["huggingface_hub>=0.20", "onnx>=1.14", "onnxruntime>=1.16"]
+serve = ["onnx>=1.22.0", "onnxruntime>=1.16", "fastapi>=0.100", "uvicorn>=0.23"]
+hub = ["huggingface_hub>=0.20", "onnx>=1.22.0", "onnxruntime>=1.16"]
 dashboard = ["flask>=2.0", "plotly>=5.0"]
 dev = [
     "torch>=1.13",
@@ -68,7 +68,7 @@ dev = [
     "mypy>=1.0",
     "plotly>=5.0",
     "hypothesis>=6.0",
-    "onnx>=1.14",
+    "onnx>=1.22.0",
     "onnxruntime>=1.16",
     "fastapi>=0.100",
     "uvicorn>=0.23",
