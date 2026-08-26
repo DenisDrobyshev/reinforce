@@ -6,6 +6,14 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Fixed
+- The on-policy rollout buffer shuffled its minibatches with the global NumPy RNG. Two
+  on-policy agents seeded differently in the same process therefore drew from one shared
+  shuffle stream and perturbed each other, and the buffer never held the per-instance RNG
+  the README credits every buffer with. It now owns a `numpy.random.Generator` seeded from
+  the agent's seed (threaded through the on-policy base and IPPO), so PPO and the other
+  on-policy agents are reproducible per seed and independent of global RNG state.
+
 ### Changed
 - The top-level package now resolves its public names lazily (PEP 562 `__getattr__`),
   so `import decisionrl` imports nothing on its own. `decisionrl.envs`,
