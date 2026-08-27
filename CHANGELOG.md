@@ -6,6 +6,12 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+- `decisionrl.ope`: off-policy evaluation for contextual bandits. Estimate what a target
+  policy would earn from a log of `(context, action, propensity, reward)`, without deploying
+  it, using inverse propensity scoring, self-normalized IPS, the direct method, or doubly
+  robust. Includes `collect_bandit_log` and behaviour-policy helpers. Pure NumPy, no torch.
+
 ### Changed
 - The top-level package now resolves its public names lazily (PEP 562 `__getattr__`),
   so `import decisionrl` imports nothing on its own. `decisionrl.envs`,
